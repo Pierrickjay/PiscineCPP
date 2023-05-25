@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 17:46:31 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/19 09:19:32 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/25 10:58:45 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,25 @@
 
 Brain::Brain(void)
 {
+	#ifdef DEBUG
 	std::cout << MAGENTA "Default constructor of Brain called" RESET<< std::endl;
+	#endif
 }
 
 Brain::Brain(const Brain& cerveau)
 {
 	for (int i = 0 ; i < 100; i++)
 			_ideas[i] = cerveau._ideas[i];
+	#ifdef DEBUG
 	std::cout << MAGENTA "Copy constructor of Brain called" RESET<< std::endl;
+	#endif
 }
 
 Brain& Brain::operator =(const Brain& cerveau)
 {
+	#ifdef DEBUG
 	std::cout << MAGENTA "Copy Assignement of Brain constructor called" RESET<< std::endl;
+	#endif
 	if (this != &cerveau)
 	{
 		for (int i = 0 ; i < 100; i++)
@@ -38,7 +44,9 @@ Brain& Brain::operator =(const Brain& cerveau)
 
 Brain::~Brain(void)
 {
+	#ifdef DEBUG
 	std::cout << MAGENTA "Destructor of Brain called" RESET<< std::endl;
+	#endif
 }
 
 std::string Brain::_ideas[100] = {
@@ -50,11 +58,17 @@ std::string Brain::_ideas[100] = {
 
 void Brain::setArrayNumber(std::string ideas, int N)
 {
-	_ideas[N] = ideas;
+	if (N < 100)
+		_ideas[N] = ideas;
+	else
+		std::cout << "Number higher that 100" << std::endl;
 }
 
 std::string Brain::getArrayNumber(int N)
 {
-	return (_ideas[N]);
+	if (N < 100)
+		return (_ideas[N]);
+	else
+		return ("NULL");
 }
 

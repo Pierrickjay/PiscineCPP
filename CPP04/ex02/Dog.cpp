@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:51:47 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/19 10:20:54 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/25 10:49:29 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ Dog::~Dog(void)
 
 void Dog::makeSound(void) const
 {
-	std::cout << BLUE "Waouf waouf je suis un chien" RESET<< std::endl;
+	std::cout << "Waouf waouf je suis un chien" << std::endl;
 }
 
 Brain* Dog::getBrain(void)

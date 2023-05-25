@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:00:54 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/22 11:11:35 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/24 15:39:35 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,27 @@
 Ice::Ice(void)
 {
 	_type = "ice";
-	std::cout << BLUE "Constructor called" RESET << std::endl;
+
+	#ifdef DEBUG
+		std::cout << BLUE "Constructor of Cure called" RESET << std::endl;
+	#endif
 }
 
 Ice::Ice(const Ice& ice)
 {
 	_type = ice._type;
-	std::cout << BLUE "Copy Constructor called" RESET << std::endl;
+	#ifdef DEBUG
+	std::cout << BLUE "Copy Constructor of Cure called" RESET << std::endl;
+	#endif
 }
+
+
 
 Ice& Ice::operator =(const Ice& ice)
 {
-	std::cout << BLUE "Copy Assignement Constructor called" RESET << std::endl;
+	#ifdef DEBUG
+		std::cout << BLUE "Copy Assignement Constructor of Cure called" RESET << std::endl;
+	#endif
 	if (this != &ice)
 		_type = ice._type;
 	return (*this);
@@ -34,7 +43,14 @@ Ice& Ice::operator =(const Ice& ice)
 
 Ice::~Ice(void)
 {
-	std::cout << BLUE "destructor called" RESET << std::endl;
+	#ifdef DEBUG
+		std::cout << BLUE "destructor of Cure called" RESET << std::endl;
+	#endif
+}
+
+AMateria* Ice::clone() const
+{
+	return (new Ice());
 }
 
 void Ice::use(ICharacter& target)

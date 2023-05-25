@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:50:59 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/19 10:21:25 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/25 10:49:38 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ Cat::~Cat(void)
 
 void Cat::makeSound(void) const
 {
-	std::cout << BLUE "miaou miaou je suis UN CHAT" RESET<< std::endl;
+	std::cout << "miaou miaou je suis UN CHAT" << std::endl;
 }

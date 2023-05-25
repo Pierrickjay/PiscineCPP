@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:01:12 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/22 11:08:03 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/24 13:33:35 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ class Ice : public AMateria
 		Ice(const Ice& ice);
 		Ice& operator =(const Ice& ice);
 		~Ice(void);
+		AMateria* clone() const;
 		void use(ICharacter& target);
 };

@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:02:24 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/22 11:05:00 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/24 10:36:08 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,5 @@ class Cure : public AMateria
 		Cure& operator =(const Cure& cure);
 		~Cure(void);
 		void use(ICharacter& target);
+		AMateria* clone() const;
 };

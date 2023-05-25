@@ -17,9 +17,9 @@ OFF			:= '\033[0m'
 
 #SRCS
 
-NAME	:= Animal
+NAME	:= Materia
 
-SRCS	:= main.cpp 
+SRCS	:= main.cpp AMateria.cpp Character.cpp Cure.cpp Ice.cpp  MateriaSource.cpp \
 
 OBJS_DIR := ./objs/
 
@@ -70,6 +70,10 @@ all : ${NAME}
 ${NAME} : ${OBJS}
 	${CC} ${CFLAGS} ${OBJS} -o ${NAME}
 
+debug : CFLAGS += -D DEBUG
+debug : re
+	@./$(NAME)
+
 clean	:
 	${RM} ${OBJS_DIR}
 
@@ -84,7 +88,7 @@ re		: fclean all
 
 $(OBJS_DIR)%.o	: %.cpp
 				@${MKDIR} $(@D)
-				@${CC} ${CFLAGS} -c $< -o $@
+				${CC} ${CFLAGS} -c $< -o $@
 #				@$(call PROGRESS_BAR, $(basename $(notdir $<)))
 
 -include $(DEPS)

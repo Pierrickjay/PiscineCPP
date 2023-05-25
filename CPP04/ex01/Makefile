@@ -73,6 +73,10 @@ ${NAME} : ${OBJS}
 clean	:
 	${RM} ${OBJS_DIR}
 
+debug : CFLAGS += -D DEBUG
+debug : re
+	@./$(NAME)
+	
 fclean : clean
 	${RM} ${NAME}
 

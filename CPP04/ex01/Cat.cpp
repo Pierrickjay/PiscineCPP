@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:50:59 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/25 11:04:48 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/29 09:36:16 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ Cat& Cat::operator =(const Cat& cat)
 	if (this != &cat)
 	{
 		_type = cat._type;
-		 _brain = new Brain(*cat._brain);
+		if (_brain)
+			delete _brain;
+		_brain = new Brain(*cat._brain);
 	}
 	return *this;
 }

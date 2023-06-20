@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:51:47 by pjay              #+#    #+#             */
-/*   Updated: 2023/05/25 10:53:33 by pjay             ###   ########.fr       */
+/*   Updated: 2023/05/29 09:36:34 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ Dog& Dog::operator =(const Dog& dog)
 	#endif
 	if (this != &dog)
 	{
+		if (_brain)
+			delete _brain;
 		_brain = new Brain(*dog._brain);
 		_type = dog._type;
 	}

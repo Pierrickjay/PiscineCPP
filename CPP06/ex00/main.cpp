@@ -6,13 +6,13 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:00:15 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/15 11:42:17 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/21 12:35:40 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 // You have to handle these pseudo literals as well (you know, for science): -inff, +inff
-// and nanf. 
+// and nanf.
 int main(int ac, char **av)
 {
 	if (ac != 2)
@@ -22,5 +22,6 @@ int main(int ac, char **av)
 	}
 	ScalarConverter convert;
 	convert.convert(av[1]);
+	//convert.convert(av[1]);
 
 }

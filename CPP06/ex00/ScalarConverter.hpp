@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 13:37:20 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/15 09:18:06 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/21 12:34:39 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,5 @@ void	floatToChar(std::string s1);
 void	floatToInt(std::string s1);
 void	floatToDouble(std::string s1);
 
-void	printUnexist(void);
+void	printUnexist(std::string toConvert);
 

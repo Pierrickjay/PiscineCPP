@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:38:00 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/15 11:36:41 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/21 09:50:56 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,33 +92,53 @@ void	ScalarConverter::convert(std::string toConvert)
 	int type;
 
 	type = findType(toConvert);
-	std::cout << "type = " << type << std::endl ;
-	if (type == 4) // faire un ternaire pour eviter la foret de if
+	if (type == UNEXIST)
 	{
-		printUnexist();
+		printUnexist(toConvert);
 		return ;
 	}
-	else if (type == 0)
+	else if (type == INT)
 	{
 		printInt(toConvert);
 		return;
 	}
-	else if (type == 1)
+	else if (type == CHAR)
 		printChar(toConvert);
-	else if (type == 2)
+	else if (type == FLOAT)
 		printFloat(toConvert);
-	else if (type == 3)
+	else if (type == DOUBLE)
 		printDouble(toConvert);
 }
 
-void printUnexist(void)
+void printUnexist(std::string toConvert)
 {
-	std::cout << YELLOW "=========================================" RESET << std::endl;
-	std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
-	std::cout <<  BLUE"       Int: Non displayable" RESET<< std::endl;
-	std::cout <<  BLUE"       Float: Non displayable" RESET<< std::endl;
-	std::cout <<  BLUE"       Double: Non displayable" RESET<< std::endl;
-	std::cout << YELLOW "=========================================" RESET << std::endl;
+	if (toConvert == "-inff" || toConvert == "+inff" || toConvert == "nanf")
+	{
+		std::cout << YELLOW "=========================================" RESET << std::endl;
+		std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Int: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Float: " << toConvert << RESET << std::endl;
+		std::cout <<  BLUE"       Double: Non displayable" RESET<< std::endl;
+		std::cout << YELLOW "=========================================" RESET << std::endl;
+	}
+	else if (toConvert == "-inf" || toConvert == "+inf" || toConvert == "nan")
+	{
+		std::cout << YELLOW "=========================================" RESET << std::endl;
+		std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Int: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Float: Non displayable" RESET << std::endl;
+		std::cout <<  BLUE"       Double: " << toConvert << RESET << std::endl;
+		std::cout << YELLOW "=========================================" RESET << std::endl;
+	}
+	else
+	{
+		std::cout << YELLOW "=========================================" RESET << std::endl;
+		std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Int: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Float: Non displayable" RESET<< std::endl;
+		std::cout <<  BLUE"       Double: Non displayable" RESET<< std::endl;
+		std::cout << YELLOW "=========================================" RESET << std::endl;
+	}
 }
 
 
@@ -138,7 +158,6 @@ void printInt(std::string s1)
 void	intToChar(std::string s1)
 {
 	long int test = atoi(s1.c_str());
-	std::cout << test << std::endl;
 	if (test < 127 && test > 0 && isprint(test))
 	{
 		std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
@@ -159,7 +178,7 @@ void	intToDouble(std::string s1)
 {
 	long int test = atoi(s1.c_str());
 	if (test < __DBL_MAX__)
-		std::cout <<  BLUE"       Double: " << static_cast<double>(test) << ".0" << RESET<< std::endl;
+		std::cout <<  BLUE"       Double: " << static_cast<double>(test) << RESET<< std::endl;
 	else
 		std::cout <<  BLUE"       Double: Non displayable" RESET<< std::endl;
 }
@@ -176,8 +195,6 @@ void	printChar(std::string s1)
 
 void	charToFloat(std::string s1)
 {
-	//int test = atoi(s1.c_str());
-	//std::cout << " test = " << test << std::endl;
 	std::cout <<  BLUE"       Float: " << static_cast<float>(s1[0]) << "f" << RESET<< std::endl;
 }
 
@@ -218,7 +235,7 @@ void	doubleToChar(std::string s1)
 					}
 				}
 				long int test = atoi(s1.c_str());
-				if (test < 127 && isprint(test))
+				if (test < INT_MAX && test < INT_MIN && test < 127 && isprint(test))
 					std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
 				else
 					std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
@@ -226,7 +243,7 @@ void	doubleToChar(std::string s1)
 			else
 			{
 				long int test = atoi(s1.c_str());
-				if (test < 127 && isprint(test))
+				if (test < INT_MAX && test < INT_MIN && test < 127 && isprint(test))
 					std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
 				else
 					std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
@@ -247,7 +264,8 @@ void	doubleToFloat(std::string s1)
 void	doubleToInt(std::string s1)
 {
 	long int test = atoi(s1.c_str());
-	if (test < __INT_MAX__ && test > INT_MIN)
+	size_t point = s1.find('.');
+	if (test < __INT_MAX__ && test > INT_MIN && s1.erase(point).length() < 10)
 		std::cout <<  BLUE"       Int: " << static_cast<int>(test) << RESET << std::endl;
 	else
 		std::cout <<  BLUE"       Int: Non displayable" RESET<< std::endl;
@@ -278,40 +296,43 @@ void	floatToChar(std::string s1)
 					if ((s1[a] == 'f' || s1[a] == 'F') && a == i)
 					{
 						long int test = atoi(s1.c_str());
-						if (test > -127 && test < 127 && isprint(test))
+						if (s1.length() < 10 && test > 0 && test < 127 && isprint(test))
 							std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
 						else
 							std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
 						return;
 					}
-					else if (s1[a] != '0')
+					else if (isdigit(s1[a]) && s1[a] != '0')
 					{
 						std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
 						return ;
 					}
 				}
 				long int test = atoi(s1.c_str());
-				if (test > -127 && test < 127 && isprint(test))
+				if (s1.length() < 10 && test > 0 && test < 127 && isprint(test))
 					std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
 				else
 					std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
+				return ;
 			}
 			else
 			{
 				long int test = atoi(s1.c_str());
-				if (test < 127 && isprint(test))
+				if (s1.length() < 10 && test > 0 && test < 127 && isprint(test))
 					std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
 				else
 					std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
+				return ;
 			}
 		}
 		else if ((s1[i] == 'f' || s1[i] == 'F') && s1[i + 1] == '\0')
 		{
 			long int test = atoi(s1.c_str());
-			if (test < 127 && isprint(test))
-				std::cout <<  BLUE"       Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
+			if (s1.length() < 10 && test > 0 && test < 127 && isprint(test))
+				std::cout <<  BLUE" size_t point = s1.find('.');      Char: \'" << static_cast<char>(test) <<"\'" <<RESET << std::endl;
 			else
 				std::cout <<  BLUE"       Char: Non displayable" RESET<< std::endl;
+			return ;
 		}
 	}
 }
@@ -319,7 +340,11 @@ void	floatToChar(std::string s1)
 void	floatToInt(std::string s1)
 {
 	long int test = atoi(s1.c_str());
-	std::cout <<  BLUE"       Int : " << static_cast<int>(test) << RESET<< std::endl;
+	size_t point = s1.find('.');
+	if (test < __INT_MAX__ && test > INT_MIN && s1.erase(point).length() < 10)
+		std::cout <<  BLUE"       Int: " << static_cast<int>(test) << RESET << std::endl;
+	else
+		std::cout <<  BLUE"       Int: Non displayable" RESET<< std::endl;
 }
 
 void	floatToDouble(std::string s1)

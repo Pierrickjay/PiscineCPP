@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 13:56:17 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/15 14:52:25 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/21 10:08:19 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int main()
 
 	try
 	{
-		std::cout << "Adress of the class before using the function : "<< &ptr << std::endl;
 		ptrInt = info.serialize(ptr);
 		std::cout << "Adress after the serialize = " << &ptrInt << std::endl;
 		ptrData = info.deserialize(ptrInt);

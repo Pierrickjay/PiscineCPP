@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:36:25 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/17 16:08:02 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/20 16:07:51 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@
 
 class Base;
 
-class C : public Base{class IndexOut : public std::exception
+class C : public Base{
 };

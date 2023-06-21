@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 12:13:57 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/15 14:56:31 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/20 16:06:42 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ uintptr_t Serialize::serialize(Data* ptr)
 Data* Serialize::deserialize(uintptr_t raw)
 {
 	std::cout << "Trying to cast from a Raw uintptr to a Data* object" << std::endl;
-	Data *ptr = reinterpret_cast<Data *>(raw); // reinterpret_cast bc entier non signer
+	Data *ptr = reinterpret_cast<Data *>(raw); // reinterpret_cast bc unsigned
 	if (ptr == NULL)
 		throw ConversionImpossible();
 	else

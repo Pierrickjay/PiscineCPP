@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:21:30 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/20 12:20:34 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/23 16:02:59 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <algorithm>
 #include "easyfind.hpp"
 #include "color.hpp"
+
 
 class Span
 {
@@ -33,6 +34,7 @@ class Span
 		int longestSpan();
 		int findpos(int pos) const;
 		void addMultiNumber(std::vector<int> toAdd);
+		void addMultiNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		void printSpan();
 		class SpanFull : public std::exception
 		{
@@ -43,3 +45,4 @@ class Span
 			virtual const char* what() const throw();
 		};
 };
+

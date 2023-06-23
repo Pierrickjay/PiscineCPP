@@ -16,9 +16,8 @@ template <typename T>
 Array<T>::Array()
 {
 	std::cout << BLUE"Constructor of Array called" RESET<< std::endl;
-	_array = new T[1];
-	_size = 1;
-	_array[0] = 0;
+	_array = new T[0]();
+	_size = 0;
 }
 
 template <typename T>
@@ -73,9 +72,7 @@ template <typename T>
 Array<T>::Array(unsigned int n)
 {
 	std::cout << BLUE"Constructor of Array called" RESET<< std::endl;
-	_array = new T[n];
-	for (unsigned int i = 0; i < n; i++)
-		_array[i] = 0;
+	_array = new T[n]();
 	_size = n;
 }
 

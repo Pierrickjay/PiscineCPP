@@ -17,7 +17,7 @@ OFF			:= '\033[0m'
 
 #SRCS
 
-NAME	:= FILO
+NAME	:= Arry
 
 SRCS	:= main.cpp
 

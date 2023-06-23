@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:09:21 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/18 16:14:36 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/23 11:13:28 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,24 @@ int main()
 	try
 	{
 		std::vector<int>::iterator result = easyfind(a1, 88);
+		std::cout << *result << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	try
+	{
+		std::vector<int>::iterator result = easyfind(a1, 489);
+		std::cout << *result << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	try
+	{
+		std::vector<int>::iterator result = easyfind(a1, 25);
 		std::cout << *result << std::endl;
 	}
 	catch (const std::exception &e)

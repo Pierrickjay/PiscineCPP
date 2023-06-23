@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:25:59 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/20 12:26:15 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/23 16:29:21 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,34 @@
 
 Span::Span()
 {
-	std::cout << RED"Constructor of Span Called"RESET << std::endl;
+	#ifdef DEBUG
+		std::cout << RED"Constructor of Span Called"RESET << std::endl;
+	#endif
 }
 
 Span::Span(const Span& rhs)
 {
+	#ifdef DEBUG
 	std::cout << RED"Constructor by assignement of Span Called"RESET << std::endl;
-	for (unsigned int i = 0; i < rhs._size; i++)
+	#endif
+	for (std::vector<int>::const_iterator it = rhs._vec.begin(); it < rhs._vec.end() ; it++)
 	{
-		_vec.push_back(rhs.findpos(i));
+		_vec.push_back(*it);
 	}
 	_size = rhs._size;
 }
 
 Span& Span::operator=(const Span& rhs)
 {
+	#ifdef DEBUG
 	std::cout << RED"Constructor by operator of Span Called"RESET << std::endl;
+	#endif
 	if (this != &rhs)
 	{
 		_vec.clear();
-		for (unsigned int i = 0; i < rhs._size; i++)
+		for (std::vector<int>::const_iterator it = rhs._vec.begin(); it < rhs._vec.end() ; it++)
 		{
-			_vec.push_back(rhs.findpos(i));
+			_vec.push_back(*it);
 		}
 		_size = rhs._size;
 	}
@@ -46,19 +52,22 @@ Span& Span::operator=(const Span& rhs)
 Span::~Span()
 {
 	_vec.clear();
+	#ifdef DEBUG
 	std::cout << RED"Destructor of Span Called"RESET << std::endl;
+	#endif
 }
 
 Span::Span(unsigned int N)
 {
 	_size = N;
+	#ifdef DEBUG
 	std::cout << RED"Constructor of Span Called"RESET << std::endl;
+	#endif
 }
 
 void Span::addNumber(int N)
 {
-	std::cout << "_vec.size = " << _vec.size() << "_size = " << _size << std::endl;
-	if (_vec.size() >= _size)
+	if (_vec.size() ==  _size)
 		throw SpanFull();
 	else
 		_vec.push_back(N);
@@ -68,25 +77,17 @@ int Span::shortestSpan()
 {
 	if (_vec.size() <= 1)
 		throw NoNumber();
-	int i = 2;
-	std::sort(_vec.begin(), _vec.end());
-	int minDiff = this->findpos(1) - this->findpos(0);
-	//std::cout << "Min Diff = " << minDiff << " this->findpos(1) = " << this->findpos(1) << " this->findpos(0) "<< this->findpos(0) << std::endl;
-	for (std::vector<int>::iterator it = _vec.begin() + 2; it < _vec.end(); it++)
+	Span cpy(*this);
+	int test;
+	std::sort(cpy._vec.begin(), cpy._vec.end());
+	int minDiff = cpy._vec[1] - cpy._vec[0];
+	test = cpy._vec[1];
+	for (std::vector<int>::iterator it = cpy._vec.begin() + 2; it < cpy._vec.end(); it++)
 	{
-		//std::cout << " this->findpos(i) = " << this->findpos(i - 1) << " *it "<< *it << std::endl;
-		minDiff = std::min(minDiff, *it - this->findpos(i - 1));
-		i++;
+		minDiff = std::min(minDiff, *it - test);
+		test = *it;
 	}
-	//i = 2;
-	// for (std::vector<int>::iterator it = _vec.begin() + 2; it < _vec.end(); it++)
-	// {
-	// 	if (*it - this->findpos(i - 1) == minDiff)
-	// 	{
-			return (std::abs(minDiff));
-	// 	}
-	// 	i++;
-	// }
+	return (std::abs(minDiff));
 }
 
 int Span::longestSpan()
@@ -95,27 +96,23 @@ int Span::longestSpan()
 		throw NoNumber();
 	std::vector<int>::iterator biggest = _vec.begin();
 	std::vector<int>::iterator shortest = _vec.begin();
-	for (std::vector<int>::iterator in = _vec.begin(); in < _vec.end(); in++)
+	for (std::vector<int>::iterator it = _vec.begin(); it < _vec.end(); it++)
 	{
-		if (in > biggest)
-			biggest = in;
-		if (in < shortest)
-			shortest = in;
+		if (*it > *biggest)
+			biggest = it;
+		if (*it < *shortest)
+			shortest = it;
 	}
-	//std::cout <<
 	return (std::abs(*biggest - *shortest));
 }
 
 int Span::findpos(int pos) const
 {
-	// if (*_vec.begin() + pos > (int)_size)
-	// 	throw NoOccurence();
 	int i = 0;
 	for (std::vector<int>::const_iterator it = _vec.begin(); it < _vec.end(); it++)
 	{
 		if (i == pos)
 			return (*it);
-
 		i++;
 	}
 	throw NoOccurence();
@@ -123,9 +120,17 @@ int Span::findpos(int pos) const
 
 void Span::addMultiNumber(std::vector<int> toAdd)
 {
+	if (_vec.size() + std::distance(toAdd.begin(), toAdd.end()) > _size)
+		throw SpanFull();
 	_vec.insert(_vec.end(), toAdd.begin(), toAdd.end());
 }
 
+void Span::addMultiNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end)
+{
+	if (_vec.size() + std::distance(begin, end) > _size)
+		throw SpanFull();
+	_vec.insert(_vec.end(), begin, end);
+}
 
 void Span::printSpan()
 {

@@ -17,7 +17,7 @@ OFF			:= '\033[0m'
 
 #SRCS
 
-NAME	:= FILO
+NAME	:= btc
 
 SRCS	:= main.cpp
 

@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:49:23 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/18 14:46:13 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/21 13:07:00 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@ int main(int, char**)
 		const int value = rand();
 		numbers[i] = value;
 		mirror[i] = value;
+
 	}
+	std::cout << "value of numbers[i] = " << numbers[MAX_VAL- 1] << std::endl;
+	std::cout << "value of numbers[i] = " << mirror[MAX_VAL - 1] << std::endl;
 	//SCOPE
 	{
 		Array<int> tmp = numbers;
-		std::cout << "test" << std::endl;
 		Array<int> test(tmp);
 	}
-
 	for (int i = 0; i < MAX_VAL; i++)
 	{
 		//std::cout << mirror[i] << std::endl;

@@ -6,13 +6,14 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 13:58:02 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/17 14:28:27 by pjay             ###   ########.fr       */
+/*   Updated: 2023/06/21 12:49:44 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "whatever.hpp"
 
-int main( void ) {
+int main(void)
+{
 	int a = 2;
 	int b = 3;
 	::swap( a, b );
@@ -29,3 +30,4 @@ int main( void ) {
 	std::cout << "max( e, d ) = " << ::max( e, d ) << std::endl;
 	return 0;
 }
+

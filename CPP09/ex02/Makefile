@@ -1,25 +1,10 @@
 
-CLEAR		:= \e[0K
-
-SRED		:= \033[0;31m
-SGREEN		:= \033[0;32m
-SYELLOW		:= \033[0;33m
-SCYAN		:= \033[0;36m
-SPURPLE		:= \033[0;35m
-SOFF		:= \033[0m
-
-RED			:= '\033[0;31m'
-GREEN		:= '\033[0;32m'
-YELLOW		:= '\033[0;33m'
-CYAN		:= '\033[0;36m'
-PURPLE		:= '\033[0;35m'
-OFF			:= '\033[0m'
 
 #SRCS
 
-NAME	:= Btc
+NAME	:= Arry
 
-SRCS	:= main.cpp BitcoinExchange.cpp
+SRCS	:= main.cpp
 
 OBJS_DIR := ./objs/
 
@@ -55,7 +40,6 @@ re		: fclean all
 
 .PHONY	: all clean fclean re
 
-#create objsdir and .o
 
 $(OBJS_DIR)%.o	: %.cpp
 				@${MKDIR} $(@D)

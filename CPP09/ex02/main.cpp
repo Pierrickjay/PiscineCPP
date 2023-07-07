@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 21:14:20 by pjay              #+#    #+#             */
-/*   Updated: 2023/07/03 10:59:03 by pjay             ###   ########.fr       */
+/*   Created: 2023/07/06 14:51:59 by pjay              #+#    #+#             */
+/*   Updated: 2023/07/07 09:06:09 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
-#include <iostream>
-#include <stack>
+#include "PmergeMe.hpp"
 
-class RPN
+int checkArgs(char **av)
 {
-	private :
-		std::string _str;
-		std::stack<int> _filo;
-	public :
-		RPN();
-		RPN(const RPN &rhs);
-		RPN& operator=(const RPN &rhs);
-		~RPN();
-		RPN(char *av);
-		int checkIt();
-		int calcIt();
-};
+	for (int i = 0; av[i]; i++)
+	{
+		std::string str = av[i];
+		for (int a = 0; a < str.length(); a++)
+		{
+			if (!isdigit(str[i]))
+				return (-1);
+		}
+		if (atoi(str.c_str()) < 0)
+			return (-1);
+	}
+	return (0);
+}
+int main(int ac, char **av)
+{
+	if (ac <= 1 || checkArgs(av) == -1)
+	{
+		BAD_PARAM
+		return (1);
+	}
+	PmergeMe(av);
+
+}

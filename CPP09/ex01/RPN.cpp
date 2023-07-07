@@ -6,50 +6,86 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 21:20:24 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/23 21:20:24 by pjay             ###   ########.fr       */
+/*   Updated: 2023/07/03 10:59:22 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
-Rpn::Rpn(char *av)
+
+RPN::RPN()
 {
-	_str = av;
 	#ifdef DEBUG
-		std::cout << "Constructor of rpn called" << std::endl;
+		std::cout << "Constructor of RPN called" << std::endl;
 	#endif
 }
 
-int Rpn::checkIt()
+RPN::RPN(const RPN &rhs)
+{
+	*this = rhs;
+	#ifdef DEBUG
+		std::cout << "Constructor of RPN called" << std::endl;
+	#endif
+
+}
+
+RPN& RPN::operator=(const RPN &rhs)
+{
+	_str = rhs._str;
+	_filo = rhs._filo;
+	#ifdef DEBUG
+		std::cout << "Constructor of RPN called" << std::endl;
+	#endif
+	return (*this);
+}
+
+RPN::~RPN()
+{
+	#ifdef DEBUG
+		std::cout << "Constructor of RPN called" << std::endl;
+	#endif
+}
+
+RPN::RPN(char *av)
+{
+	_str = av;
+	#ifdef DEBUG
+		std::cout << "Constructor of RPN called" << std::endl;
+	#endif
+}
+
+int RPN::checkIt()
 {
 	for (size_t i = 0; i < _str.length(); i++)
 	{
-		std::cout << _str[i] << std::endl;
 		if (!isdigit(_str[i]))
 		{
 			if (_str[i] != ' ' &&_str[i] != '+' && _str[i] != '-' && _str[i] != '*' && _str[i] != '/')
 				return (-1);
+			if (_str[i] != ' ' && _str[i + 1] && _str[i + 1] != ' ')
+				return (-1);
+			if (!_str[i + 1] && _str[i] != '+' && _str[i] != '-' && _str[i] != '*' && _str[i] != '/')
+				return (-1);
 		}
 		else
 		{
-			std::cout << "enter here" << std::endl;
-			_filo.push(_str[i] - '0');
+			if (!_str[i + 1])
+				return (-1);
+			if (_str[i + 1] && _str[i + 1] != ' ')
+				return (-1);
 		}
 	}
 	return (0);
 }
 
-int Rpn::calcIt()
+int RPN::calcIt()
 {
-	int total = _filo.top();
-	std::cout << "stack size is " << _filo.size() << std::endl;
-	_filo.pop();
+	int total;
+	bool totfill = false;
 
 	for (size_t i = 0; i < _str.length(); i++)
 	{
-		std::cout << " total is " << total << std::endl;
 		if ((_str[i] == '+' || _str[i] == '-' || _str[i] == '*' || _str[i] == '/' ) && !_filo.empty())
 		{
-			std::cout << "enter here when str[i] = " << _str[i] << std::endl;
 			switch (_str[i])
 			{
 				case '-' :
@@ -59,7 +95,7 @@ int Rpn::calcIt()
 					total = total + _filo.top();
 					break ;
 				case '*' :
-					total = total + _filo.top();
+					total = total * _filo.top();
 					break ;
 				default :
 					total = total / _filo.top();
@@ -67,7 +103,19 @@ int Rpn::calcIt()
 			}
 			_filo.pop();
 		}
-
+		else if (isdigit(_str[i]))
+		{
+			if (i == 0 || (i == 2 && totfill != true))
+			{
+				total = _str[i] - '0';
+				totfill = true;
+			}
+			else
+			{
+				_filo.push(_str[i] - '0');
+				totfill = true;
+			}
+		}
 	}
 	return (total);
 }

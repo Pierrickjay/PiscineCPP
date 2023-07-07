@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 21:14:20 by pjay              #+#    #+#             */
-/*   Updated: 2023/07/03 10:59:03 by pjay             ###   ########.fr       */
+/*   Created: 2023/07/03 12:15:10 by pjay              #+#    #+#             */
+/*   Updated: 2023/07/03 13:00:23 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
-#include <iostream>
-#include <stack>
+#include "BitcoinExchange.hpp"
 
-class RPN
+int main(int ac, char **av)
 {
-	private :
-		std::string _str;
-		std::stack<int> _filo;
-	public :
-		RPN();
-		RPN(const RPN &rhs);
-		RPN& operator=(const RPN &rhs);
-		~RPN();
-		RPN(char *av);
-		int checkIt();
-		int calcIt();
-};
+	if (ac != 2)
+		return (std::cout << "Please enter only one parametter", 0);
+	BitcoinExchange Avax;
+	Avax.ExchangeIt(av[1]);
+}

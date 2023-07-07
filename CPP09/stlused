@@ -1,2 +1,5 @@
-ex01 = std::stack https://en.wikipedia.org/wiki/Reverse_Polish_notation
-ex02 = std::map || 
+
+
+ex00 = std::map
+ex01 = std::stack
+ex02 = std::array || std::deque

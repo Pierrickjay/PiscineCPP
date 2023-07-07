@@ -37,38 +37,13 @@ RM		:= rm -rf
 
 MKDIR	:= mkdir -p
 
-# PROGRESS BAR
-
-NB_OBJS			= ${words ${OBJS}}
-
-COUNTER			= 1
-
-PROGRESS		= 0
-
-DONE 			= 100
-
-SPACE		 	= 0
-
-FILL			= 0
-
-EMPTY			= 0
-
-#define PROGRESS_BAR
-#	$(eval PROGRESS=$(shell echo $$(($(COUNTER) * 100 / $(NB_OBJS)))))
-#	$(eval DONE=$(shell echo $$(($(PROGRESS) * 30 / 100))))
-#	$(eval SPACE=$(shell echo $$((30 - $(DONE)))))
-#	$(eval FILL=$(shell printf "%*s" ${DONE} | sed 's/ /█/g'))
-#	$(eval EMPTY=$(shell printf "%*s" ${SPACE} | sed 's/ /█/g'))
-#	printf "\r${CLEAR}${SYELLOW}Compile : ${SGREEN}${FILL}${SRED}${EMPTY} ${SGREEN}%3d%%${SOFF} %s.cpp" ${PROGRESS} $1
-#	$(eval COUNTER=$(shell echo $$(($(COUNTER) + 1))))
-#endef
-
-# RULES
-
 all : ${NAME}
 
 ${NAME} : ${OBJS}
 	${CC} ${CFLAGS} ${OBJS} -o ${NAME}
+
+debug	: CFLAGS += -D DEBUG
+debug	: re
 
 clean	:
 	${RM} ${OBJS_DIR}
@@ -85,6 +60,5 @@ re		: fclean all
 $(OBJS_DIR)%.o	: %.cpp
 				@${MKDIR} $(@D)
 				@${CC} ${CFLAGS} -c $< -o $@
-#				@$(call PROGRESS_BAR, $(basename $(notdir $<)))
 
 -include $(DEPS)

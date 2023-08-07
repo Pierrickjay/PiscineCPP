@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:06:41 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/23 16:28:30 by pjay             ###   ########.fr       */
+/*   Updated: 2023/07/10 14:43:52 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int main()
 	srand(time(NULL));
 	try
 	{
-		sp.addNumber(1);
+		sp.addNumber(-8);
 		sp.addNumber(2);
 		sp.addNumber(3);
 		sp.addNumber(4);

@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:25:59 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/23 16:29:21 by pjay             ###   ########.fr       */
+/*   Updated: 2023/07/10 14:39:32 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,6 @@ int Span::longestSpan()
 			shortest = it;
 	}
 	return (std::abs(*biggest - *shortest));
-}
-
-int Span::findpos(int pos) const
-{
-	int i = 0;
-	for (std::vector<int>::const_iterator it = _vec.begin(); it < _vec.end(); it++)
-	{
-		if (i == pos)
-			return (*it);
-		i++;
-	}
-	throw NoOccurence();
 }
 
 void Span::addMultiNumber(std::vector<int> toAdd)

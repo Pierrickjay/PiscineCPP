@@ -2,9 +2,9 @@
 
 #SRCS
 
-NAME	:= Arry
+NAME	:= PmergeMe
 
-SRCS	:= main.cpp
+SRCS	:= main.cpp PmergeMe.cpp VmergeMe.cpp Number.cpp DmergeMe.cpp
 
 OBJS_DIR := ./objs/
 

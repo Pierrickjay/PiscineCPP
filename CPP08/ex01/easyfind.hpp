@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:50:01 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/20 09:40:18 by pjay             ###   ########.fr       */
+/*   Updated: 2023/07/10 14:38:04 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ class NoOccurence : public std::exception
 template <typename T>
 typename T::iterator easyfind(T& temp, int a)
 {
-	for (typename T::iterator it = temp.begin(); it < temp.end(); it++)
-	{
-		if (*it == a)
-			return (it);
-	}
-	throw NoOccurence();
+
+	if (std::find(temp.begin(), temp.end(), a) != temp.end())
+		return (std::find(temp.begin(), temp.end(), a));
+	else
+		throw NoOccurence();
 }

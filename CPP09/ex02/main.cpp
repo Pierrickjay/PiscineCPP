@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:51:59 by pjay              #+#    #+#             */
-/*   Updated: 2023/07/07 09:06:09 by pjay             ###   ########.fr       */
+/*   Updated: 2023/08/07 15:43:10 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 
 int checkArgs(char **av)
 {
-	for (int i = 0; av[i]; i++)
+	for (int i = 1; av[i]; i++)
 	{
 		std::string str = av[i];
-		for (int a = 0; a < str.length(); a++)
+		for (size_t a = 0; a < str.length(); a++)
 		{
-			if (!isdigit(str[i]))
+			if (!isdigit(str[a]))
+			{
+				BAD_PARAM
 				return (-1);
+			}
 		}
-		if (atoi(str.c_str()) < 0)
+		if (atoi(str.c_str()) <= 0)
 			return (-1);
 	}
 	return (0);
 }
+
 int main(int ac, char **av)
 {
 	if (ac <= 1 || checkArgs(av) == -1)
@@ -34,6 +38,6 @@ int main(int ac, char **av)
 		BAD_PARAM
 		return (1);
 	}
-	PmergeMe(av);
-
+	PmergeMe(av, ac - 1);
 }
+

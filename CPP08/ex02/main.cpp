@@ -6,14 +6,16 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:04:43 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/23 16:29:51 by pjay             ###   ########.fr       */
+/*   Updated: 2023/07/10 16:18:45 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MutanStack.hpp"
+#include "MutantStack.hpp"
+#include "MutantStack.tpp"
 
 int main()
 {
+	std::cout << RED"Main subject test" << RESET << std::endl;
 	MutantStack<int> mstack;
 	mstack.push(5);
 	mstack.push(17);
@@ -35,5 +37,17 @@ int main()
 	++it;
 	}
 	std::stack<int> s(mstack);
-	return 0;
+	std::cout << RED"---------------------" RESET << std::endl << std::endl << std::endl;
+	std::cout << RED"My test" << RESET << std::endl;
+	MutantStack<int> mstack2;
+	mstack2.push(5);
+	mstack2.push(17);
+	std::cout << "mstack2 top is "<<mstack2.top() << std::endl;
+	MutantStack<int>copy(mstack2);
+	std::cout << "copy top is "<< copy.top() << std::endl;
+	std::cout << "Size before the pop " << copy.size() << std::endl;
+	copy.pop();
+	std::cout << "Size after the pop " << copy.size() << std::endl;
+	mstack2 = copy;
+	std::cout << "Mstack top after using operator = on copy"<<mstack2.top() << std::endl;
 }

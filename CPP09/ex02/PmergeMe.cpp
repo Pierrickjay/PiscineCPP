@@ -6,41 +6,37 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:34:40 by pjay              #+#    #+#             */
-/*   Updated: 2023/07/07 11:08:49 by pjay             ###   ########.fr       */
+/*   Updated: 2023/08/07 16:39:03 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-template <typename T>
-PmergeMe<T>::PmergeMe()
+PmergeMe::PmergeMe()
 {
-
 	#ifdef DEBUG
 		std::cout << "Constructor of PmergeMe called" << std::endl;
 	#endif
 }
 
-template <typename T>
-PmergeMe<T>::PmergeMe(const PmergeMe& rhs)
+PmergeMe::PmergeMe(const PmergeMe& rhs)
 {
-
+	(void)rhs;
 	#ifdef DEBUG
 		std::cout << "Constructor by assignement of PmergeMe called" << std::endl;
 	#endif
 }
 
-template <typename T>
-PmergeMe& PmergeMe<T>::operator=(const PmergeMe& rhs)
+PmergeMe& PmergeMe::operator=(const PmergeMe& rhs)
 {
-
 	#ifdef DEBUG
 		std::cout << "Constructor by operator of PmergeMe called" << std::endl;
 	#endif
+	(void)rhs;
+	return (*this);
 }
 
-template <typename T>
-PmergeMe<T>::~PmergeMe()
+PmergeMe::~PmergeMe()
 {
 
 	#ifdef DEBUG
@@ -48,57 +44,76 @@ PmergeMe<T>::~PmergeMe()
 	#endif
 }
 
-template <typename T>
-void PmergeMe<T>::_SwapT(T& x, T& y)
+void printNonSorted(char **av)
 {
-	T a = y;
-
-	y = x;
-	x = a;
+	std::cout << "Before : ";
+	for (int i = 1; av[i]; i++)
+		std::cout << av[i] << " ";
+	std::cout << std::endl;
 }
 
-template <typename>
-void PmergeMe<T>::_insertionSort(T& container)
+int dealWithVec(char **av, int ac)
 {
-	for (T::iterator it = container.begin(); it < container.end(); it++)
+	std::vector<std::pair<int, int> > arr;
+	int i = 1;
+	printNonSorted(av);
+	clock_t begin = clock();
+	while (av[i])
 	{
-		for(T::iterator itEnd = it ; itEnd != container.begin(); --itEnd)
+		int tmp2 = -1;
+		int tmp = atoi(av[i]);
+		if (av[i + 1])
+			tmp2 = atoi(av[i + 1]);
+		if (tmp < 0)
 		{
-			if (*itEnd > *it)
-				_SwapT(*itEnd, *it);
+			BAD_PARAM
+			return (-1);
 		}
+		arr.push_back(std::make_pair(tmp, tmp2));
+		if (i + 2 > ac)
+			break ;
+		i += 2;
 	}
+	VmergeMe te(arr);
+	clock_t end = clock();
+	double timePassed = static_cast<double>(end - begin) / CLOCKS_PER_SEC * 10;
+	std::cout << "Time to process a range of " << ac << " with " << "std::vector : " << timePassed << " us" << std::endl;
+	return (0);
 }
 
-template <typename T>
-void PmergeMe<T>::_mergeInsertionSort(T& lhs, T& rhs)
+int dealWithDeq(char **av, int ac)
 {
-	if (lhs.size() < 16)
+	std::deque<std::pair<int, int> > arr;
+	int i = 1;
+	clock_t begin = clock();
+	while (av[i])
 	{
-		
+		int tmp2 = -1;
+		int tmp = atoi(av[i]);
+		if (av[i + 1])
+			tmp2 = atoi(av[i + 1]);
+		if (tmp < 0)
+		{
+			BAD_PARAM
+			return (-1);
+		}
+		arr.push_back(std::make_pair(tmp, tmp2));
+		if (i + 2 > ac)
+			break ;
+		i += 2;
 	}
-	//deiviser chaque cote
+	DmergeMe te(arr);
+	clock_t end = clock();
+	double timePassed = static_cast<double>(end - begin) / CLOCKS_PER_SEC  * 10;
+	std::cout << "Time to process a range of " << ac << " with " << "std::deque : " << timePassed << " us" << std::endl;
+	return (0);
+
 }
 
-
-template <typename T>
-PmergeMe<T>::PmergeMe(char **av)
+PmergeMe::PmergeMe(char **av, int ac)
 {
-	T lhs;
-	T rhs;
-	for (int i = 0; av[i]; i++)
-	{
-		if (i % 2 == 0)
-		{
-			rhs.push_back(atoi(av[i]));
-		}
-		else
-		{
-			lhs.push_back(atoi(av[i]));
-		}
-	}
+	(void)ac;
+
+	dealWithVec(av, ac);
+	dealWithDeq(av, ac);
 }
-
-
-
-

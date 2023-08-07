@@ -78,6 +78,10 @@ fclean : clean
 
 re		: fclean all
 
+debug	: CFLAGS += -D DEBUG
+debug	: re
+		./${NAME}
+
 .PHONY	: all clean fclean re
 
 #create objsdir and .o

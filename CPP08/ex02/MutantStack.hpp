@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   easyfind.hpp                                       :+:      :+:    :+:   */
+/*   MutantStack.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/18 14:50:01 by pjay              #+#    #+#             */
-/*   Updated: 2023/06/18 16:10:34 by pjay             ###   ########.fr       */
+/*   Created: 2023/06/20 13:48:59 by pjay              #+#    #+#             */
+/*   Updated: 2023/07/10 15:25:14 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #include <iostream>
 #include <algorithm>
-#include <vector>
+#include <iterator>
+#include <stack>
+#include <deque>
+#include "color.hpp"
 
-class NoOccurence : public std::exception
+// Function prototypes of MutantStack.tpp
+template <typename T>
+class MutantStack : public std::stack<T>
 {
-	virtual const char* what() const throw()
-	{
-		return ("No occurence found");
-	}
+	public:
+	MutantStack(void);
+	MutantStack(const MutantStack& rhs);
+	MutantStack& operator=(const MutantStack& rhs);
+	~MutantStack(void);
+
+	typedef typename std::deque<T>::iterator iterator;
+	iterator begin(void);
+	iterator end(void);
 };
 
-template <typename T>
-typename T::iterator easyfind(T& temp, int a)
-{
-
-	for (typename T::iterator it = temp.begin(); it < temp.end(); it++)
-	{
-		if (*it == a)
-			return (it);
-	}
-	throw NoOccurence();
-}

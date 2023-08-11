@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 21:20:24 by pjay              #+#    #+#             */
-/*   Updated: 2023/07/03 10:59:22 by pjay             ###   ########.fr       */
+/*   Updated: 2023/08/11 14:05:18 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ RPN::RPN(char *av)
 
 int RPN::checkIt()
 {
+	int countSign = 0;
+	int countNumber = 0;
 	for (size_t i = 0; i < _str.length(); i++)
 	{
 		if (!isdigit(_str[i]))
@@ -65,6 +67,8 @@ int RPN::checkIt()
 				return (-1);
 			if (!_str[i + 1] && _str[i] != '+' && _str[i] != '-' && _str[i] != '*' && _str[i] != '/')
 				return (-1);
+			if (_str[i] == '+' || _str[i] == '-' || _str[i] == '*' || _str[i] == '/')
+				countSign++;
 		}
 		else
 		{
@@ -72,51 +76,76 @@ int RPN::checkIt()
 				return (-1);
 			if (_str[i + 1] && _str[i + 1] != ' ')
 				return (-1);
+			countNumber++;
 		}
 	}
+	if (countNumber - countSign != 1)
+		return (-1);
 	return (0);
 }
 
 int RPN::calcIt()
 {
-	int total;
-	bool totfill = false;
-
-	for (size_t i = 0; i < _str.length(); i++)
+	size_t spaceLen = 0;
+	size_t i = 0;
+	while (_str[spaceLen] == ' ')
+		spaceLen++;
+	while (i + spaceLen < _str.length())
 	{
-		if ((_str[i] == '+' || _str[i] == '-' || _str[i] == '*' || _str[i] == '/' ) && !_filo.empty())
+		int left = 0;
+		int right = 0;
+		if ((_str[i + spaceLen] == '+' || _str[i + spaceLen] == '-' || _str[i + spaceLen] == '*' || _str[i + spaceLen] == '/' ))
 		{
-			switch (_str[i])
+			if (_filo.empty())
+			{
+				std::cout << "Bad implementation" << std::endl;
+				return (-1);
+			}
+
+			switch (_str[i + spaceLen])
 			{
 				case '-' :
-					total = total - _filo.top();
+					left = _filo.top();
+					_filo.pop();
+					right = _filo.top();
+					_filo.pop();
+					_filo.push(right - left);
 					break ;
 				case '+' :
-					total = total + _filo.top();
+					left = _filo.top();
+					_filo.pop();
+					right = _filo.top();
+					_filo.pop();
+					_filo.push(right + left);
 					break ;
 				case '*' :
-					total = total * _filo.top();
+					left = _filo.top();
+					_filo.pop();
+					right = _filo.top();
+					_filo.pop();
+					_filo.push(right * left);
 					break ;
 				default :
-					total = total / _filo.top();
+					left = _filo.top();
+					_filo.pop();
+					right = _filo.top();
+					_filo.pop();
+					if (left == 0 || right == 0)
+					{
+						std::cout << "Cannot divide by 0" << std::endl;
+						return (-1);
+					}
+					_filo.push(right / left);
 					break ;
 			}
-			_filo.pop();
 		}
-		else if (isdigit(_str[i]))
+		else if (isdigit(_str[i + spaceLen]))
 		{
-			if (i == 0 || (i == 2 && totfill != true))
-			{
-				total = _str[i] - '0';
-				totfill = true;
-			}
-			else
-			{
-				_filo.push(_str[i] - '0');
-				totfill = true;
-			}
+			_filo.push(_str[i + spaceLen] - '0');
 		}
+		i++;
 	}
-	return (total);
+	std::cout << "Result = " << _filo.top() << std::endl;
+	return (_filo.top());
 }
 

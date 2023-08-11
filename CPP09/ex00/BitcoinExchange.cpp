@@ -6,7 +6,7 @@
 /*   By: pjay <pjay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 10:56:06 by pjay              #+#    #+#             */
-/*   Updated: 2023/07/06 14:47:32 by pjay             ###   ########.fr       */
+/*   Updated: 2023/08/11 14:21:29 by pjay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,27 @@ void BitcoinExchange::ExchangeIt(char *av)
 	std::ifstream ExcRate;
 	std::ifstream toBuy;
 	std::string save;
+	int i = 0;
 
 	try
 	{
 		ExcRate.open("data.csv");
 		toBuy.open(av);
+		if (!ExcRate.is_open() || !toBuy.is_open())
+			throw std::ios_base::failure("File not found");
 		fillMap(ExcRate);
 		while (std::getline(toBuy, save))
 		{
+			if ( i == 0 && save != "date | value")
+			{
+				std::cout << "Error: Wrong format" << std::endl;
+				return ;
+			}
+			else if (i == 0)
+			{
+				i++;
+				continue ;
+			}
 			if (checkIt(save) == -1)
 				continue ;
 			else
@@ -61,14 +74,11 @@ void BitcoinExchange::ExchangeIt(char *av)
 				printSwap();
 				_toStock.clear();
 			}
-			//std::cout << " All good the the line => " << save << std::endl;
 		}
 	}
 	catch(std::ios_base::failure& e)
 	{
-
-		std::cout << "Te" << std::endl;
-		ExcRate.close(); // if to buy failed
+		ExcRate.close();
 		std::cerr << e.what() << '\n';
 	}
 
@@ -99,7 +109,6 @@ void	BitcoinExchange::fillMap(std::ifstream &btcfd)
 	}
 }
 
-//compare each date element between them AAAA then MM then DD
 std::string findClosestDate(std::map<std::string, std::string> toEx, std::map<std::string, float> btcValue)
 {
 	std::map<std::string, std::string>::iterator itToEx = toEx.begin();
@@ -116,44 +125,64 @@ std::string findClosestDate(std::map<std::string, std::string> toEx, std::map<st
 		}
 		if (numBtc <= numToEx )
 		{
-			//std::cout << "numbtc = " << numBtc << " || num ex" << numToEx << std::endl;
 			closeDate = it->first.substr(0, 4);
-
 		}
 	}
-	//std::cout<< "date find first part " << closeDate << std::endl;
 	for (std::map<std::string, float>::iterator it = btcValue.begin(); it != btcValue.end(); it++)
 	{
 		int numToEx = atoi(itToEx->first.substr(5, 2).c_str());
-		//std::cout << it->first << std::endl;
 		int numBtc = atoi(it->first.substr(5, 2).c_str());
 
 		if (closeDate == it->first.substr(0, 4))
 		{
-			//std::cout << "num btc" << numBtc << " of " << it->first.substr(6, 2).c_str() << "   | num to ex = " << numToEx << std::endl;
 			if (numBtc <= numToEx )
 			{
 				tmp = it->first.substr(4, 4);
-				//std::cout << tmp << std::endl;
 			}
 		}
 	}
 	closeDate += tmp;
-	//std::cout<< "date find second part " << closeDate << std::endl;
 	for (std::map<std::string, float>::iterator it = btcValue.begin(); it != btcValue.end(); it++)
 	{
 		int numToEx = atoi(itToEx->first.substr(8, 2).c_str());
 		int numBtc = atoi(it->first.substr(8, 2).c_str());
 		if (closeDate == it->first.substr(0, 8))
 		{
-			//std::cout << " it->first.substr(0, 8) = " <<  it->first.substr(0, 8) << " numBtc " << numBtc << " numToEx " << numToEx<< std::endl;
 			if (numBtc <= numToEx)
 				tmp = it->first.substr(8, 2);
 		}
 	}
 	closeDate += tmp;
-	//std::cout << "close date = " << closeDate << " of " << itToEx->first << std::endl;
 	return (closeDate);
+}
+
+int isLeapYear(int year)
+{
+	if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+		return (1);
+	else
+		return (0);
+}
+
+int checkMonthday(std::string date)
+{
+	int year = atoi(date.substr(0, 4).c_str());
+	int month = atoi(date.substr(5, 2).c_str());
+	int day = atoi(date.substr(8, 2).c_str());
+	if (year < 2009)
+		return (-1);
+	if (month > 12 || month < 1)
+		return (-1);
+	if (month == 2 && day > 28 && !isLeapYear(year))
+		return (-1);
+	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
+		return (-1);
+	else
+	{
+		if (day > 31 || day < 1)
+			return (-1);
+	}
+	return (0);
 }
 
 void	 BitcoinExchange::printSwap()
@@ -172,7 +201,6 @@ void	 BitcoinExchange::printSwap()
 	{
 		if (posVirg == std::string::npos)
 		{
-			//std::cout << it->second.length() << std::endl;
 			toMultInt = atoi(it->second.c_str());
 			std::cout << itBtc->second * toMultInt << std::endl;
 		}
@@ -192,6 +220,11 @@ void	 BitcoinExchange::printSwap()
 int BitcoinExchange::checkIt(std::string save)
 {
 	bool compa = false;
+	if (save.length() <= 13)
+	{
+		std::cout << "Error: bad input => " << save.substr(0, 10) << std::endl;
+		return (-1);
+	}
 	for (size_t i = 0; i < save.length() ; i++)
 	{
 		if ((i < 4 && !isdigit(save[i])) || atoi(save.substr(0, 4).c_str()) < 1000)
@@ -224,7 +257,7 @@ int BitcoinExchange::checkIt(std::string save)
 				}
 				else
 				{
-					if (atoi(save.substr(8, 9).c_str()) > 31)
+					if (checkMonthday(save.substr(0, 10)) == -1)
 						return (std::cout << "Error: bad input => " << save.substr(0, 10)<< std::endl, -1);
 				}
 		}
@@ -241,7 +274,6 @@ int BitcoinExchange::checkIt(std::string save)
 					return (std::cout << "Error: Number too big => " << save.substr(13, save.length())<< std::endl, -1);
 				_toStock[save.substr(0, 10)] = save.substr(13, save.length());
 				return (0);
-				// stock tomutl in a vec
 			}
 			else
 			{
@@ -260,7 +292,6 @@ int BitcoinExchange::checkIt(std::string save)
 					return (std::cout << "Error: Number too big => " << save.substr(13, save.length())<< std::endl, -1);
 				_toStock[save.substr(0, 10)] = save.substr(13, save.length());
 				return (0);
-					// stock tomutl in a vec
 			}
 		}
 	}
